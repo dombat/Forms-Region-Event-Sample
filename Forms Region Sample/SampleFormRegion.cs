@@ -42,7 +42,15 @@ namespace Forms_Region_Sample
                 //ignore - just to slow down the processing of this method
             }
 
-            ((ItemEvents_10_Event)OutlookItem).Send += MarkingFormRegion_Send;
+            if (OutlookItem is MailItem) 
+            {
+                ((ItemEvents_10_Event)OutlookItem).Send += MarkingFormRegion_Send;
+            }
+            else
+            {
+                MessageBox.Show("Its not a mail item");
+            }
+
         }
 
         // Occurs when the form region is closed.
@@ -50,7 +58,7 @@ namespace Forms_Region_Sample
         // Use this.OutlookFormRegion to get a reference to the form region.
         private void FormRegion1_FormRegionClosed(object sender, System.EventArgs e)
         {
-            ((ItemEvents_10_Event)OutlookItem).Send -= MarkingFormRegion_Send;
+            if (OutlookItem is MailItem) ((ItemEvents_10_Event)OutlookItem).Send -= MarkingFormRegion_Send;
         }
 
         private void MarkingFormRegion_Send(ref bool cancel)
